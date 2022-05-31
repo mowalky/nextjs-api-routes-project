@@ -6,6 +6,7 @@ function handler(req, res) {
       return;
     } else {
       console.log(userEmail);
+      res.status(200).json({ message: "Success" });
     }
   }
 }

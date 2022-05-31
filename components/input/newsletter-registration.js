@@ -7,16 +7,18 @@ function NewsletterRegistration() {
 
   function registrationHandler(event) {
     event.preventDefault();
-
+    const EnteredEmail = InputUserEmail.current.value;
     fetch("/api/newsletter", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: InputUserEmail.current.value,
+        email: EnteredEmail,
       }),
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data.message));
   }
 
   return (
