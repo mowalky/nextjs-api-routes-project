@@ -1,4 +1,6 @@
-function handler(req, res) {
+import { MongoClient } from "mongodb";
+
+async function handler(req, res) {
   if (req.method === "POST") {
     const userEmail = req.body.email;
     if (!userEmail || !userEmail.includes("@")) {
@@ -6,7 +8,12 @@ function handler(req, res) {
       return;
     } else {
       console.log(userEmail);
-      res.status(200).json({ message: "Success" });
+
+      const client = await MongoClient.connect(`${process.env.MONGODB}`);
+      const db = await client.db("nextjs");
+      await db.collection("newsletter").insertOne({ email: userEmail });
+      client.close();
+      res.status(201).json({ message: "success" });
     }
   }
 }
